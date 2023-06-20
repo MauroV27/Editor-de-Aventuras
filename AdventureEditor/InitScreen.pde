@@ -50,7 +50,7 @@ class InitScreen {
     createControlButton( "Remover Cena", POS_BASE_BUTTON[0], POS_BASE_BUTTON[1] + ( POS_Y_DIFERENCE_BUTTON ), SIZE_BUTTON, font, "deleteScene");
     createControlButton( "Editar Cena", POS_BASE_BUTTON[0], POS_BASE_BUTTON[1] + ( 2 * POS_Y_DIFERENCE_BUTTON ), SIZE_BUTTON, font, "editFrame");
     createControlButton( "Renomear Cena", POS_BASE_BUTTON[0], POS_BASE_BUTTON[1] + ( 3 * POS_Y_DIFERENCE_BUTTON ), SIZE_BUTTON, font, "renameFrame");
-    //createControlButton( "Ver grafo", POS_BASE_BUTTON[0], POS_BASE_BUTTON[1] + ( 4 * POS_Y_DIFERENCE_BUTTON ), SIZE_BUTTON, font, "showGraphScreen");
+    createControlButton( "Ver grafo", POS_BASE_BUTTON[0], POS_BASE_BUTTON[1] + ( 4 * POS_Y_DIFERENCE_BUTTON ), SIZE_BUTTON, font, "showGraphScreen");
 
     float POS_Y_MID_BUTTON = height * 2/3;
 

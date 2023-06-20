@@ -91,7 +91,7 @@ class InitScreen {
       ;
 
     //createControlButton( "Selecionar cena inicial", width/4, height/2 + 100, SIZE_BUTTON, font2, "selectMainFrame");
-    createControlButton( "Selecionar cena inicial", width/4, POS_Y_MID_BUTTON, SIZE_BUTTON, font2,  "selectMainFrame");
+    createControlButton( "Selecionar cena inicial", width/4, POS_Y_MID_BUTTON, SIZE_BUTTON, font2, "selectMainFrame");
 
 
 
@@ -121,7 +121,12 @@ class InitScreen {
 
   public void showGraphScreen() {
     if (this.editorConnection != null ) {
-      this.editorConnection.DEBUG_changeEditState( EDITOR_SUB_STATES.GRAPH );
+      if ( this.editorConnection.frames.size() == 0 ) {
+        booster = new UiBooster();
+        booster.showErrorDialog("Nenhum frame disponivel para visualizar na tela do grafo", "ERROR");
+      } else {
+        this.editorConnection.DEBUG_changeEditState( EDITOR_SUB_STATES.GRAPH );
+      }
     }
   }
 

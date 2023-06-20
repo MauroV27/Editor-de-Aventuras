@@ -13,8 +13,6 @@ public class GraphScreen {
   private float nodeRadius = 20; // size of radius of nodes in graph
 
   private Rect buttonArea; // BUTTON in TOP-LEFT // copy from Player class
-  //private float globalX, globalY; // global pos reference to reference all objects (Nodes & Edges) -> like a 'camera'
-  //private float tempoPosX, tempPosY;
 
   public GraphScreen( Editor e ) {
     this.editor = e;
@@ -37,7 +35,6 @@ public class GraphScreen {
     circle(cx, cy, 2*GRAPH_RADIUS);
 
     int ni = 0; // node index used for change arrow color
-
 
     this.drawArcs( cx, cy, GRAPH_RADIUS);
     // draw nodes circles ( before draw connections )
@@ -301,14 +298,8 @@ public class Node {
   private float x, y; // position in screen
   private float angle; // angle of node in circular graph
   private String nodeName;
-  private PImage nodeImage;
 
   public IntList targets = new IntList(); // aponta para outros nodes <index deles na lista>
-
-  public Node( String frameName, PImage i ) {
-    this.nodeName = frameName;
-    this.nodeImage = i;
-  }
 
   public Node( String frameName) {
     this.nodeName = frameName;

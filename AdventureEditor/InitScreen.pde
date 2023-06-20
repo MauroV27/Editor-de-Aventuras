@@ -90,10 +90,7 @@ class InitScreen {
       .setFont(font2)
       ;
 
-    //createControlButton( "Selecionar cena inicial", width/4, height/2 + 100, SIZE_BUTTON, font2, "selectMainFrame");
     createControlButton( "Selecionar cena inicial", width/4, POS_Y_MID_BUTTON, SIZE_BUTTON, font2, "selectMainFrame");
-
-
 
     min_number_of_itens_in_lbox = ceil((PApplet.abs( lbox.getHeight() ) - ( lbox.getBarHeight() )) / h_base);// h_base = lbox.setItemHeight(h_base)
     for ( int i = 0; i < min_number_of_itens_in_lbox; i++) {

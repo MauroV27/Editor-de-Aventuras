@@ -1,7 +1,6 @@
 class Frame {
   PImage frameImg = createImage(0, 0, RGB);
   String frameImgRef;
-  Hotspot selectedHotspot; // ?
   ArrayList<Hotspot> hotspots = new ArrayList<Hotspot>();
 
   private String frameName = "";
@@ -37,26 +36,26 @@ class Frame {
   }
 
 
-  public void renderHotSpotsInFrame() {
+  //public void renderHotSpotsInFrame() { //LEGACY
 
-    for (int i = 0; i < hotspots.size(); i++) {
-      try {
-        hotspots.get(i).drawHotspot();
-      }
-      catch(NullPointerException e) {
-        println("[ERROR] -> FRAME:renderHotSpotsInFrame = ", e);
-      }
-    }
-  }
+  //  for (int i = 0; i < hotspots.size(); i++) {
+  //    try {
+  //      hotspots.get(i).drawHotspot();
+  //    }
+  //    catch(NullPointerException e) {
+  //      println("[ERROR] -> FRAME:renderHotSpotsInFrame = ", e);
+  //    }
+  //  }
+  //}
 
-  public void hotspotDrawHandler() {
-    for (int i = 0; i < hotspots.size(); i++) {
-      try {
-        hotspots.get(i).drawHotspot();
-      }
-      catch(NullPointerException e) {
-        e.printStackTrace();
-      }
-    }
-  }
+  //public void hotspotDrawHandler() { //LEGACY
+  //  for (int i = 0; i < hotspots.size(); i++) {
+  //    try {
+  //      hotspots.get(i).drawHotspot();
+  //    }
+  //    catch(NullPointerException e) {
+  //      e.printStackTrace();
+  //    }
+  //  }
+  //}
 }

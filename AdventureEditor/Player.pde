@@ -27,11 +27,11 @@ boolean checkClickInRectArea( float cx, float cy, float rpx, float rpy, float rw
 
 /*
   Classe base para toda a lógica da aplicação
-  Responsavel por gerenciar os frames da aplicação
-  Também possui as funções e métodos para controlar as imagens ( escalar de acordo com o tamanho da tela )
-  Apresenta a imagem da cena e verifica a colisão com os hotspots, também redirecionando para a próxima tela
-  Contudo, não implementa nenhuma manipulação (adição/edição/remoção) de dados, apenas lê os dados do arquivo json recebido e os interpreta para a aplicação.
-*/
+ Responsavel por gerenciar os frames da aplicação
+ Também possui as funções e métodos para controlar as imagens ( escalar de acordo com o tamanho da tela )
+ Apresenta a imagem da cena e verifica a colisão com os hotspots, também redirecionando para a próxima tela
+ Contudo, não implementa nenhuma manipulação (adição/edição/remoção) de dados, apenas lê os dados do arquivo json recebido e os interpreta para a aplicação.
+ */
 
 class Player {
 
@@ -59,7 +59,7 @@ class Player {
 
   protected String fileOpened = ""; // for save path of current file loaded
 
-  private final String imageFolderPath =  (String)sketchPath("room");
+  //private final String imageFolderPath =  (String)sketchPath("room");
 
   private Rect buttonArea;
 
@@ -182,7 +182,16 @@ class Player {
   }
 
   public String getImageFolderPath() {
-    return this.imageFolderPath;
+    //return this.imageFolderPath;
+    return this.fileOpened + "//Assets";
+  }
+
+  public String getFolderPath() {
+    return this.fileOpened;
+  }
+  
+  protected void setFolderPath( String folderPath ){
+    this.fileOpened = folderPath;
   }
 
   // -----------------------------------------------------------------------
@@ -196,7 +205,7 @@ class Player {
     if ( this.isFrameIndexValid( this.mainFrameIndex ) == false) {
       this.mainFrameIndex = 0;
     }
-    
+
     this.reloadFrameView( this.mainFrameIndex );
   }
 

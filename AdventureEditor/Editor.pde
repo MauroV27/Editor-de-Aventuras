@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 
 import uibooster.*;
 
@@ -8,13 +9,13 @@ enum EDITOR_SUB_STATES {
 };
 
 /*
-  Classe que possibilita a adição,edição e remoção dos dados dos frames, além disso o editor gerencia a inserção de imagens e o export do 
-  dados em formato json ( sendo este lido pelo player ).
-  O player conta com 3 telas : 
-    - tela incial: possibilita a adição/edição/remoção de Frames, bem como outras configurações dos dados ( cena inicial ) e as funções de import/export/player
-    - tela de edição: possibilita criar/remover hotspots de um determinado Frame, definindo tamanho(área) e qual o frame para onde o hotspot aponta
-    - tela do grafo: exibe a estrutura de frmaes/hotspots de uma forma visual, assim facilitando a debugação do projeto
-*/
+  Classe que possibilita a adição,edição e remoção dos dados dos frames, além disso o editor gerencia a inserção de imagens e o export do
+ dados em formato json ( sendo este lido pelo player ).
+ O player conta com 3 telas :
+ - tela incial: possibilita a adição/edição/remoção de Frames, bem como outras configurações dos dados ( cena inicial ) e as funções de import/export/player
+ - tela de edição: possibilita criar/remover hotspots de um determinado Frame, definindo tamanho(área) e qual o frame para onde o hotspot aponta
+ - tela do grafo: exibe a estrutura de frmaes/hotspots de uma forma visual, assim facilitando a debugação do projeto
+ */
 
 class Editor extends Player implements Callable {
 
@@ -23,8 +24,8 @@ class Editor extends Player implements Callable {
   private InitScreen initScreen; // Component for show init screen
   private EditorScreen edScreen; // Component for show edit screen
   private GraphScreen gpScreen; // Component for show graph
-  
-  private ControlP5 reference, ref2; // every screen need a ControlP5 reference 
+
+  private ControlP5 reference, ref2; // every screen need a ControlP5 reference
 
   // OBS : Nao consegui impedir que a aplicação fechase, mas para previnir algumas infelicidades vou criar um sistema para permitir salvar os dados caso a aplicação seja fechada
   private boolean saveProgressIfExitApp = false;
@@ -43,7 +44,7 @@ class Editor extends Player implements Callable {
     this.initScreen = new InitScreen(this, this.reference);
     this.edScreen = new EditorScreen(this, this.ref2);
     this.gpScreen = new GraphScreen(this);
-    
+
     this.changeEditState( EDITOR_SUB_STATES.MENU );
 
     this.setCaller( this );
@@ -68,9 +69,9 @@ class Editor extends Player implements Callable {
   void renderEditorScreen() {
     this.edScreen.render();
   }
-  
-  void renderGraph(){
-   this.gpScreen.renderGraph(); 
+
+  void renderGraph() {
+    this.gpScreen.renderGraph();
   }
 
   private void changeEditState( EDITOR_SUB_STATES newState ) {
@@ -93,12 +94,12 @@ class Editor extends Player implements Callable {
       this.setFrameLimitsToPlayer();
       this.play(); // start play in main frame
       break;
-      case GRAPH : // adicionei para testar o grafo ------------------------
-        this.edScreen.hideScreen();
-        this.initScreen.hideScreen();
-        this.gpScreen.createGraph();
-        //new Graph( this.frames );  // cria a 'matrix' do grafo e printa os dados no console, mas apenas isso - n desenha nada
-        break; // ----------------------------------------------------------
+    case GRAPH : // adicionei para testar o grafo ------------------------
+      this.edScreen.hideScreen();
+      this.initScreen.hideScreen();
+      this.gpScreen.createGraph();
+      //new Graph( this.frames );  // cria a 'matrix' do grafo e printa os dados no console, mas apenas isso - n desenha nada
+      break; // ----------------------------------------------------------
     default :
       return;
     }
@@ -310,14 +311,28 @@ class Editor extends Player implements Callable {
 
   // METHODS TO MANAGE DATA FILES -----------------------------------
 
-  public void exportJSONFile( String exportFileName ) {
+  public void createProjectFolder( String absolutPath ) {
+
+    File projectRoot = new File( absolutPath );
+    
+    // Create Assets folder
+    File assetsDir = new File( projectRoot.getAbsolutePath() + "//Assets" );
+    assetsDir.mkdir();
+
+    // Create jsonFile
+    this.exportJSONFile( projectRoot.getAbsolutePath() );
+  }
+
+  public void exportJSONFile( String directoryFolder ) {
 
     // Loop in frames :
     // |- Dados sobre a imagem do frame
     // |- Loop nos hotspots do frame :
     //    |- Dados sobre os hotspots do frame
+    
+    String exportFileName = "adventure-project.json";
 
-    if ( exportFileName == "" || exportFileName == null || exportFileName == "null" ) {
+    if ( directoryFolder == "" || directoryFolder == null || directoryFolder == "null" ) {
       println("Algo deu errado com o save do arquivo, por favor tente de novo");
       return;
     }
@@ -368,11 +383,11 @@ class Editor extends Player implements Callable {
       exportFileName = exportFileName.substring(0, exportFileName.length() - 5);
     }
 
-    saveJSONObject(data, "data/" + exportFileName + ".json", "indent=5");
+    saveJSONObject(data, directoryFolder + "//" + exportFileName, "indent=5");
 
     // save file path, now app can save just pressed letter "s" in keybord
     if ( fileOpened != exportFileName ) {
-      this.fileOpened = exportFileName;
+      this.fileOpened = directoryFolder;
     }
   }
 

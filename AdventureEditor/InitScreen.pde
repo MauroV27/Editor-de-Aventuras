@@ -233,8 +233,14 @@ class InitScreen {
 
   //metodo adicionar cena
   void addFrame() {
-    //File file = this.booster.showFileSelectionFromPath( sketchPath("room"), "Selecione uma imagem", "png", "jpg", "jpeg" );
-    File[] files = ImageFileRetriever.selelctDirectory( sketchPath("room"), "Selecione uma imagem", "png", "jpg", "jpeg");
+    
+    if ( this.editorConnection.getFolderPath() == "" ){
+      
+      File projectRootFolder = booster.showDirectorySelection();
+      this.editorConnection.createProjectFolder( projectRootFolder.getAbsolutePath() ); 
+    }
+    
+    File[] files = ImageFileRetriever.selelctDirectory( this.editorConnection.getImageFolderPath(), "Selecione uma imagem", "png", "jpg", "jpeg");
 
     if ( files == null || files.length == 0 ) return;
 
@@ -297,9 +303,11 @@ class InitScreen {
     //println("fileName = " + file.getName());
     UiBooster booster = new UiBooster();
 
-    String exportName = booster.showTextInputDialog("Nome do arquivo export: ");
-    println("Nome do arquivo export: ", exportName);
-    this.editorConnection.exportJSONFile(exportName);
+    //String exportName = booster.showTextInputDialog("Nome do arquivo export: ");
+    File folderName = booster.showDirectorySelection();
+    //println("Nome do arquivo export: ", exportName);
+    
+    this.editorConnection.exportJSONFile( folderName.getAbsolutePath() );
   }
 
   //metodo importar

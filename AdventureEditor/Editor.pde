@@ -379,10 +379,6 @@ class Editor extends Player implements Callable {
 
     data.setJSONArray("frames", state);
 
-    if ( exportFileName.endsWith(".json") ) {
-      exportFileName = exportFileName.substring(0, exportFileName.length() - 5);
-    }
-
     saveJSONObject(data, directoryFolder + "//" + exportFileName, "indent=5");
 
     // save file path, now app can save just pressed letter "s" in keybord

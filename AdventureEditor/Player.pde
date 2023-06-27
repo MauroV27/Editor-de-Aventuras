@@ -295,12 +295,17 @@ class Player {
     Rect iL = new Rect(0, 0, 0, 0); // imageLimits
     float imageRatio = ( img.width / (float)img.height );
 
-    iL.h = imageRatio < 1 ? (imageRatio * sizeH) : sizeH;
-    iL.w = imageRatio * iL.h;
+    if ( imageRatio > 1 ) { // img horizontal
+      iL.w = min(imageRatio * sizeW, sizeW);
+      iL.h = iL.w / imageRatio;
+    } else { // img vertical
+      iL.h = max(imageRatio * sizeH, sizeH);
+      iL.w = imageRatio * iL.h;
+    }
 
     iL.x = minX + ( abs(sizeW - iL.w)/2 );
     iL.y = minY + ( abs(sizeH - iL.h)/2 );
-
+    
     return iL;
   }
 

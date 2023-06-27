@@ -7,6 +7,7 @@ Editor e;
 
 void setup() {
   size(1280, 720);
+  surface.setTitle("Editor de Aventuras - v1.0");
 
   _cp5 = new ControlP5(this);
   _cp5_2 = new ControlP5(this);
@@ -18,7 +19,7 @@ void setup() {
   colorMode(RGB);
 
   // ----------- FEITO PARA TESTES ------------------------
-  //e.importJSONFile("exemplo-todos-frames.json");
+  
   // ----------- FEITO PARA TESTES ------------------ [ FIM ]
 }
 

@@ -293,19 +293,17 @@ class Player {
     PImage img = loadImage( imageAbslotuePath );
 
     Rect iL = new Rect(0, 0, 0, 0); // imageLimits
-    float imageRatio = ( img.width / (float)img.height );
-
-    if ( imageRatio > 1 ) { // img horizontal
-      iL.w = min(imageRatio * sizeW, sizeW);
-      iL.h = iL.w / imageRatio;
-    } else { // img vertical
-      iL.h = max(imageRatio * sizeH, sizeH);
-      iL.w = imageRatio * iL.h;
-    }
-
-    iL.x = minX + ( abs(sizeW - iL.w)/2 );
-    iL.y = minY + ( abs(sizeH - iL.h)/2 );
     
+    float widthRatio = sizeW / img.width;
+    float heightRatio = sizeH / img.height;
+    float ratio = min(widthRatio, heightRatio);
+
+    iL.w = img.width  * ratio;
+    iL.h = img.height * ratio;
+    
+    iL.x = minX + abs( sizeW - iL.w )/2;
+    iL.y = minY + abs( sizeH - iL.h )/2;
+
     return iL;
   }
 

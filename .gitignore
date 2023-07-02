@@ -1,10 +1,10 @@
 .DS_Store
 applet
-application.linux-arm64
-application.linux-armv6hf
-application.linux32
-application.linux64
-application.windows32
-application.windows64
-application.macosx
+AdventureEditor/linux-arm64
+AdventureEditor/linux-armv6hf
+AdventureEditor/linux32
+AdventureEditor/linux64
+AdventureEditor/windows32
+AdventureEditor/windows-amd64
+AdventureEditor/macosx
 out

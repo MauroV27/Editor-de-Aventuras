@@ -27,11 +27,11 @@ boolean checkClickInRectArea( float cx, float cy, float rpx, float rpy, float rw
 
 /*
   Classe base para toda a lógica da aplicação
-  Responsavel por gerenciar os frames da aplicação
-  Também possui as funções e métodos para controlar as imagens ( escalar de acordo com o tamanho da tela )
-  Apresenta a imagem da cena e verifica a colisão com os hotspots, também redirecionando para a próxima tela
-  Contudo, não implementa nenhuma manipulação (adição/edição/remoção) de dados, apenas lê os dados do arquivo json recebido e os interpreta para a aplicação.
-*/
+ Responsavel por gerenciar os frames da aplicação
+ Também possui as funções e métodos para controlar as imagens ( escalar de acordo com o tamanho da tela )
+ Apresenta a imagem da cena e verifica a colisão com os hotspots, também redirecionando para a próxima tela
+ Contudo, não implementa nenhuma manipulação (adição/edição/remoção) de dados, apenas lê os dados do arquivo json recebido e os interpreta para a aplicação.
+ */
 
 class Player {
 
@@ -59,7 +59,7 @@ class Player {
 
   protected String fileOpened = ""; // for save path of current file loaded
 
-  private final String imageFolderPath =  (String)sketchPath("room");
+  //private final String imageFolderPath =  (String)sketchPath("room");
 
   private Rect buttonArea;
 
@@ -182,7 +182,16 @@ class Player {
   }
 
   public String getImageFolderPath() {
-    return this.imageFolderPath;
+    //return this.imageFolderPath;
+    return this.fileOpened + "\\Assets";
+  }
+
+  public String getFolderPath() {
+    return this.fileOpened;
+  }
+
+  protected void setFolderPath( String folderPath ) {
+    this.fileOpened = folderPath;
   }
 
   // -----------------------------------------------------------------------
@@ -196,7 +205,7 @@ class Player {
     if ( this.isFrameIndexValid( this.mainFrameIndex ) == false) {
       this.mainFrameIndex = 0;
     }
-    
+
     this.reloadFrameView( this.mainFrameIndex );
   }
 
@@ -284,13 +293,16 @@ class Player {
     PImage img = loadImage( imageAbslotuePath );
 
     Rect iL = new Rect(0, 0, 0, 0); // imageLimits
-    float imageRatio = ( img.width / (float)img.height );
+    
+    float widthRatio = sizeW / img.width;
+    float heightRatio = sizeH / img.height;
+    float ratio = min(widthRatio, heightRatio);
 
-    iL.h = imageRatio < 1 ? (imageRatio * sizeH) : sizeH;
-    iL.w = imageRatio * iL.h;
-
-    iL.x = minX + ( abs(sizeW - iL.w)/2 );
-    iL.y = minY + ( abs(sizeH - iL.h)/2 );
+    iL.w = img.width  * ratio;
+    iL.h = img.height * ratio;
+    
+    iL.x = minX + abs( sizeW - iL.w )/2;
+    iL.y = minY + abs( sizeH - iL.h )/2;
 
     return iL;
   }
@@ -333,10 +345,19 @@ class Player {
 
 
   // Save game properies in a named file -----------------------------------
-  public void importJSONFile( String importFileName ) { // nova versão do código
+  public void importJSONFile( String folderAbsolutePath ) {
 
-    if ( importFileName.contains(".json") == false ) {
-      println("ERROR : the file - " + importFileName + " - not is a json.");
+    final String importFileName = "adventure-project.json";
+    File jsonFileInProject;
+
+    if ( folderAbsolutePath.endsWith( "//" + importFileName ) ) {
+      jsonFileInProject = new File( folderAbsolutePath );
+    } else {
+      jsonFileInProject = new File( folderAbsolutePath + "//" + importFileName);
+    }
+
+    if ( jsonFileInProject.exists() == false || jsonFileInProject.isFile() == false ) {
+      println("[ERROR] : Folder path - " + jsonFileInProject.getAbsolutePath() + " - not found!");
       return;
     }
 
@@ -344,13 +365,16 @@ class Player {
     this.frames.clear();
 
     // save file path
-    if ( fileOpened != importFileName ) {
-      this.fileOpened = importFileName;
+    if ( folderAbsolutePath.endsWith(importFileName) ) {
+      this.fileOpened = folderAbsolutePath.substring(0, folderAbsolutePath.length() - importFileName.length());
+    } else {
+      this.fileOpened = folderAbsolutePath;
     }
 
-    JSONObject json = loadJSONObject(importFileName);
+    JSONObject json = loadJSONObject( jsonFileInProject.getAbsolutePath() );
 
     //println(json); // Para caso seja necessario ver os json bruto
+    //println("abs path to folder: ", this.fileOpened);
 
     if ( json.hasKey("mainFrameIndex") ) {
       this.mainFrameIndex = json.getInt("mainFrameIndex"); // fazer um setter [FIX-THIS]

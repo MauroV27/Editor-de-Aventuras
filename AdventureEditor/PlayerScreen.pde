@@ -107,27 +107,28 @@ class PlayerScreen implements Callable {
 
     booster = new UiBooster();
 
-    File filePath = booster.showFileSelectionFromPath( sketchPath("data"), "Selecione um arquivo json", "json");
+    //File filePath = booster.showFileSelectionFromPath( sketchPath("data"), "Selecione um arquivo json", "json");
+    File folderPath = booster.showDirectorySelection();
     //println("Nome do arquivo de import: " + filePath.getName());
 
-    if ( filePath.getName().endsWith(".json") == false ) {
-      String message = "Falha ao importar o arquivo - " + filePath.getName() + " - este não é um arquivo JSON valido. Tente com um arquivo valido.";
-      this.dialogError(message, "error");
-      this.nomeCaminho = "...";
-      return;
-    }
+    //if ( filePath.getName().endsWith(".json") == false ) {
+    //  String message = "Falha ao importar o arquivo - " + filePath.getName() + " - este não é um arquivo JSON valido. Tente com um arquivo valido.";
+    //  this.dialogError(message, "error");
+    //  this.nomeCaminho = "...";
+    //  return;
+    //}
 
-    this.player.importJSONFile( filePath.getName() );
+    this.player.importJSONFile( folderPath.getAbsolutePath() );
 
     if ( this.player.frames.size() <= 0 ) {
-      String message = "Falha ao importar o arquivo - " + filePath.getName() + " - . Tente com um arquivo valido.";
+      String message = "Falha ao importar o arquivo - " + folderPath.getName() + " - . Tente com um arquivo valido.";
       this.dialogError(message, "error");
       this.nomeCaminho = "...";
     } else {
-      String message = "O arquivo - " + filePath.getName() + " - foi lido com sucesso.";
+      String message = "O arquivo - " + folderPath.getName() + " - foi lido com sucesso.";
       this.dialogSuccess(message);
 
-      this.nomeCaminho = filePath.getName();
+      this.nomeCaminho = folderPath.getName();
     }
   }
 

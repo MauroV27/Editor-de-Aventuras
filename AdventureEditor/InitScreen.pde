@@ -233,14 +233,24 @@ class InitScreen {
 
   //metodo adicionar cena
   void addFrame() {
-    //File file = this.booster.showFileSelectionFromPath( sketchPath("room"), "Selecione uma imagem", "png", "jpg", "jpeg" );
-    File[] files = ImageFileRetriever.selelctDirectory( sketchPath("room"), "Selecione uma imagem", "png", "jpg", "jpeg");
+    // Create folder to put project data, if getFolderPath is null
+    if ( this.editorConnection.getFolderPath() == "" ){
+      booster = new UiBooster();
+      booster.showErrorDialog("Crie uma pasta para o projeto antes de adicionar uma imagem", "ERROR");
+      
+      File projectRootFolder = booster.showDirectorySelection();
+      if ( projectRootFolder == null ) return;
+      
+      this.editorConnection.createProjectFolder( projectRootFolder.getAbsolutePath() ); 
+    }
+    // Select images to put inside Assets folder in project folder
+    File[] files = ImageFileRetriever.selelctDirectory( this.editorConnection.getImageFolderPath(), "Selecione uma imagem", "png", "jpg", "jpeg");
 
     if ( files == null || files.length == 0 ) return;
 
     for ( File file : files ) {
       if ( this.editorConnection.imageIsVallide(file) ) {
-        this.editorConnection.addFrame(file);
+        this.editorConnection.addFrame(file); // Add one by one image in assets folder
       }
     }
 
@@ -297,9 +307,11 @@ class InitScreen {
     //println("fileName = " + file.getName());
     UiBooster booster = new UiBooster();
 
-    String exportName = booster.showTextInputDialog("Nome do arquivo export: ");
-    println("Nome do arquivo export: ", exportName);
-    this.editorConnection.exportJSONFile(exportName);
+    //String exportName = booster.showTextInputDialog("Nome do arquivo export: ");
+    File folderName = booster.showDirectorySelection();
+    //println("Nome do arquivo export: ", exportName);
+    
+    this.editorConnection.exportJSONFile( folderName.getAbsolutePath() );
   }
 
   //metodo importar
@@ -307,10 +319,11 @@ class InitScreen {
     UiBooster booster = new UiBooster();
     //File directory = booster.showDirectorySelection();
     //File filePath = booster.showFileOrDirectorySelection();
-    File filePath = booster.showFileSelectionFromPath( sketchPath("data"), "Selecione um arquivo json", "json");
-    println("Nome do arquivo de import: " + filePath.getName());
+    //File filePath = booster.showFileSelectionFromPath( sketchPath("data"), "Selecione um arquivo json", "json");
+    //println("Nome do arquivo de import: " + filePath.getName());
+    File folderPath = booster.showDirectorySelection();
 
-    this.editorConnection.importJSONFile( filePath.getName() );
+    this.editorConnection.importJSONFile( folderPath.getAbsolutePath() );
     this.getFramesFromEditor();
   }
 

@@ -3,7 +3,7 @@ public class GraphScreen {
   private Editor editor = null;
 
   // Cores usadas de https://lospec.com/palette-list/spook-12 - removi o branco
-  private final color[] NODES_COLOR = {color(255, 255, 255), color(193, 163, 255), color(145, 80, 233), color(84, 53, 147), color(255, 218, 84), color(203, 139, 77),
+  private final color[] NODES_COLOR = {color(193, 163, 255), color(145, 80, 233), color(84, 53, 147), color(255, 218, 84), color(203, 139, 77),
     color(128, 190, 59), color(88, 104, 48), color(255, 143, 71), color(160, 71, 50), color(121, 73, 62), color(0, 0, 0)
   };
 
@@ -28,10 +28,10 @@ public class GraphScreen {
   }
 
   public void renderGraph() {
-    background(128);
+    background(255);//128);
 
     stroke(4);
-    fill(128);
+    fill(255);//128);
     circle(cx, cy, 2*GRAPH_RADIUS);
 
     int ni = 0; // node index used for change arrow color
@@ -65,11 +65,11 @@ public class GraphScreen {
       textSize(18); // size of text in nodes
       float rotateAngle = n.getNodeAngle() + (PI/2);
       if ( rotateAngle < 0 || rotateAngle > PI) {
-        rotate( rotateAngle + PI/2);
+        //rotate( rotateAngle + PI/2);
         textAlign(RIGHT, CENTER);
         text(  n.nodeName, -24, 0);
       } else {
-        rotate( rotateAngle + (1.5*PI) );
+        //rotate( rotateAngle + (1.5*PI) );
         textAlign(LEFT, CENTER);
         text( n.nodeName, 24, 0);
       }
